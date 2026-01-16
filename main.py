@@ -71,3 +71,21 @@ fase_2 = pygame.transform.smoothscale(fase_2, (640, 480))
 y_gato = 225
 q_gato = pygame.Surface([50, 50])
 gato_rect = q_gato.get_rect(topleft=(50, y_gato))
+
+tela_vitoria = pygame.image.load("gatileo/imagens/tela_vitoria2.png")
+tela_vitoria = tela_vitoria.convert()
+tela_vitoria = pygame.transform.smoothscale(tela_vitoria, (640, 366))
+
+tela_derrota = pygame.image.load("gatileo/imagens/tela_derrota2.png")
+tela_derrota = tela_derrota.convert()
+tela_derrota = pygame.transform.smoothscale(tela_derrota, (640, 366))
+
+jogar_normal = pygame.image.load("gatileo/imagens/botao_jogar.png").convert_alpha()
+jogar_hover = pygame.transform.smoothscale(jogar_normal, (221, 51))
+jogar_atual = jogar_normal
+botao_jogar = jogar_normal.get_rect(topleft=(94, 167))
+
+loja_normal = pygame.image.load("gatileo/imagens/botao_loja.png").convert_alpha()
+loja_hover = pygame.transform.smoothscale(loja_normal, (249 - (249//5), 54 - (54//5)))
+loja_atual = loja_normal
+botao_loja = loja_normal.get_rect(topleft=(93, 253))
