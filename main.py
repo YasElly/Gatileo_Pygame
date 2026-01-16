@@ -39,3 +39,18 @@ tela_viratempo_inventario = tela_viratempo_inventario.convert()
 
 tela_dinheiro_insuficiente = pygame.image.load("gatileo/imagens/dinheiro_insuficiente.png")
 tela_dinheiro_insuficiente = tela_dinheiro_insuficiente.convert()
+
+x_normal = pygame.image.load('gatileo/imagens/x.png').convert_alpha()
+x_hover = pygame.transform.smoothscale(x_normal, (42 - (42//5), 42 - (42//5)))
+x_atual = x_normal
+botao_x = x_normal.get_rect(topleft=(546, 65))
+
+xloja_normal = pygame.image.load('gatileo/imagens/x.png').convert_alpha()
+xloja_hover = pygame.transform.smoothscale(xloja_normal, (42 - (42//5), 42 - (42//5)))
+xloja_atual = xloja_normal
+botao_xloja = xloja_normal.get_rect(topleft=(555, 60))
+
+xaviso_normal = pygame.image.load('gatileo/imagens/x_aviso.png').convert_alpha()
+xaviso_hover = pygame.transform.smoothscale(xaviso_normal, (42 - (42//5), 42 - (42//5)))
+xaviso_atual = xaviso_normal
+botao_xaviso = xaviso_normal.get_rect(topleft=(485, 115))
