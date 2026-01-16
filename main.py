@@ -234,3 +234,38 @@ while running:
             botao_xaviso = xaviso_atual.get_rect(center = botao_xaviso.center)
 
         texto_moedas = font.render(f'R${moedas}', True, (0, 0, 0))
+
+    if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.button == 1:
+            if estado == "tela inicial":
+                if botao_jogar.collidepoint(event.pos):
+                    estado = "tutorial 1"
+                elif botao_loja.collidepoint(event.pos):
+                    estado = "loja"
+            elif estado == "loja":
+                if botao_voltar.collidepoint(event.pos):
+                    estado = "tela inicial"
+                elif botao_interrogacao.collidepoint(event.pos):
+                    estado = "tutorial loja"
+
+                if botao_granada.collidepoint(event.pos):
+                    if moedas >= 100:
+                        if 'granada' not in inventario:
+                            inventario.append('granada')
+                            moedas = moedas - 100
+                            estado = "comprou granada"
+                        else:
+                            estado = "granada no inventario"
+                    else:
+                        estado = 'dinheiro insuficiente'
+
+                    if botao_viratempo.collidepoint(event.pos):
+                        if moedas >= 200:
+                            if 'viratempo' not in inventario:
+                                inventario.append('viratempo')
+                                moedas = moedas - 200
+                                estado = "comprou viratempo"
+                            else:
+                                estado = "viratempo no inventario"
+                        else:
+                            estado = 'dinheiro insuficiente'
