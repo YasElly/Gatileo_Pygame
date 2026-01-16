@@ -14,3 +14,13 @@ titulo = pygame.transform.smoothscale(titulo, (300, 96))
 
 tela_inicial = pygame.image.load('gatileo/imagens/img1.png')
 tela_inicial = tela_inicial.convert()  
+
+tela_loja = pygame.image.load("gatileo/imagens/imgloja.png")
+tela_loja = tela_loja.convert()
+
+tutorial1 = pygame.image.load('gatileo/imagens/tutorial1.png')
+tutorial1 = tutorial1.convert()
+tutorial2 = pygame.image.load('gatileo/imagens/tutorial2.png')
+tutorial2 = tutorial2.convert()
+tutorial_loja = pygame.image.load('gatileo/imagens/tutorial_loja.png')
+tutorial_loja = tutorial_loja.convert()
