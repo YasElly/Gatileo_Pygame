@@ -54,3 +54,20 @@ xaviso_normal = pygame.image.load('gatileo/imagens/x_aviso.png').convert_alpha()
 xaviso_hover = pygame.transform.smoothscale(xaviso_normal, (42 - (42//5), 42 - (42//5)))
 xaviso_atual = xaviso_normal
 botao_xaviso = xaviso_normal.get_rect(topleft=(485, 115))
+
+fase_1 = pygame.image.load('gatileo/imagens/fase_1beta.png').convert_alpha()
+fase_1 = pygame.transform.smoothscale(fase_1, (640, 480))
+img_ratos = [ 
+    pygame.image.load("gatileo/imagens/rato_0.png").convert_alpha(),
+    pygame.image.load("gatileo/imagens/rato_1.png").convert_alpha(),
+    pygame.image.load("gatileo/imagens/rato_2.png").convert_alpha()
+ ] 
+img_gato = pygame.image.load('gatileo/imagens/gato.png').convert_alpha()
+img_gato = pygame.transform.smoothscale(img_gato, (50, 50))
+
+fase_2 = pygame.image.load('gatileo/imagens/fase_2beta.png').convert_alpha()
+fase_2 = pygame.transform.smoothscale(fase_2, (640, 480))
+
+y_gato = 225
+q_gato = pygame.Surface([50, 50])
+gato_rect = q_gato.get_rect(topleft=(50, y_gato))
