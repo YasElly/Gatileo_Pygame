@@ -235,71 +235,110 @@ while running:
 
         texto_moedas = font.render(f'R${moedas}', True, (0, 0, 0))
 
-    if event.type == pygame.MOUSEBUTTONDOWN:
-        if event.button == 1:
-            if estado == "tela inicial":
-                if botao_jogar.collidepoint(event.pos):
-                    estado = "tutorial 1"
-                elif botao_loja.collidepoint(event.pos):
-                    estado = "loja"
-            elif estado == "loja":
-                if botao_voltar.collidepoint(event.pos):
-                    estado = "tela inicial"
-                elif botao_interrogacao.collidepoint(event.pos):
-                    estado = "tutorial loja"
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                if estado == "tela inicial":
+                    if botao_jogar.collidepoint(event.pos):
+                        estado = "tutorial 1"
+                    elif botao_loja.collidepoint(event.pos):
+                        estado = "loja"
+                elif estado == "loja":
+                    if botao_voltar.collidepoint(event.pos):
+                        estado = "tela inicial"
+                    elif botao_interrogacao.collidepoint(event.pos):
+                        estado = "tutorial loja"
 
-                if botao_granada.collidepoint(event.pos):
-                    if moedas >= 100:
-                        if 'granada' not in inventario:
-                            inventario.append('granada')
-                            moedas = moedas - 100
-                            estado = "comprou granada"
-                        else:
-                            estado = "granada no inventario"
-                    else:
-                        estado = 'dinheiro insuficiente'
-
-                    if botao_viratempo.collidepoint(event.pos):
-                        if moedas >= 200:
-                            if 'viratempo' not in inventario:
-                                inventario.append('viratempo')
-                                moedas = moedas - 200
-                                estado = "comprou viratempo"
+                    if botao_granada.collidepoint(event.pos):
+                        if moedas >= 100:
+                            if 'granada' not in inventario:
+                                inventario.append('granada')
+                                moedas = moedas - 100
+                                estado = "comprou granada"
                             else:
-                                estado = "viratempo no inventario"
+                                estado = "granada no inventario"
                         else:
                             estado = 'dinheiro insuficiente'
-            elif estado == "tutorial loja":
-                            if botao_xloja.collidepoint(event.pos):
-                                estado = "loja"
-            elif estado == "comprou granada":
-                            if botao_xaviso.collidepoint(event.pos):
-                                estado = "loja"
-            elif estado == "granada no inventario":
-                            if botao_xaviso.collidepoint(event.pos):
-                                estado = "loja"
-            elif estado == "comprou viratempo":
-                            if botao_xaviso.collidepoint(event.pos):
-                                estado = "loja"
-            elif estado == "viratempo no inventario":
-                            if botao_xaviso.collidepoint(event.pos):
-                                estado = "loja"
-            elif estado == "dinheiro insuficiente":
-                            if botao_xaviso.collidepoint(event.pos):
-                                estado = "loja"
-            elif estado == "tutorial 1":
-                            if botao_x.collidepoint(event.pos):
-                                estado = "fase 1"
-                                iniciar_fase_1()
-            elif estado == "vitoria":
-                            if botao_tela_inicial.collidepoint(event.pos):
-                                estado = "tela inicial"
-                            if botao_jogar_novamente.collidepoint(event.pos):
-                                estado = "fase 1"
-                                iniciar_fase_1()
-            elif estado == "derrota":
-                            if botao_jogar_novamente.collidepoint(event.pos):
-                                estado = "fase 1"
-                                iniciar_fase_1()
-                            if botao_tela_inicial.collidepoint(event.pos):
-                                estado = "tela inicial"
+
+                        if botao_viratempo.collidepoint(event.pos):
+                            if moedas >= 200:
+                                if 'viratempo' not in inventario:
+                                    inventario.append('viratempo')
+                                    moedas = moedas - 200
+                                    estado = "comprou viratempo"
+                                else:
+                                    estado = "viratempo no inventario"
+                            else:
+                                estado = 'dinheiro insuficiente'
+                    elif estado == "tutorial loja":
+                        if botao_xloja.collidepoint(event.pos):
+                            estado = "loja"
+                    elif estado == "comprou granada":
+                        if botao_xaviso.collidepoint(event.pos):
+                            estado = "loja"
+                    elif estado == "granada no inventario":
+                        if botao_xaviso.collidepoint(event.pos):
+                            estado = "loja"
+                    elif estado == "comprou viratempo":
+                        if botao_xaviso.collidepoint(event.pos):
+                            estado = "loja"
+                    elif estado == "viratempo no inventario":
+                        if botao_xaviso.collidepoint(event.pos):
+                            estado = "loja"
+                    elif estado == "dinheiro insuficiente":
+                        if botao_xaviso.collidepoint(event.pos):
+                            estado = "loja"
+                    elif estado == "tutorial 1":
+                        if botao_x.collidepoint(event.pos):
+                            estado = "fase 1"
+                            iniciar_fase_1()
+                    elif estado == "vitoria":
+                        if botao_tela_inicial.collidepoint(event.pos):
+                            estado = "tela inicial"
+                        if botao_jogar_novamente.collidepoint(event.pos):
+                            estado = "fase 1"
+                            iniciar_fase_1()
+                    elif estado == "derrota":
+                        if botao_jogar_novamente.collidepoint(event.pos):
+                            estado = "fase 1"
+                            iniciar_fase_1()
+                        if botao_tela_inicial.collidepoint(event.pos):
+                            estado = "tela inicial"
+    if estado == "fase 1":    
+        teclas = pygame.key.get_pressed()
+        velocidade_gato = 6
+        velocidade_rato = 2
+        Texto_ratos_comidos = font.render(f'Ratos comidos:{ratos_comidos}', True, 'black')
+        if teclas[pygame.K_w]:
+            y_gato = y_gato - velocidade_gato
+        if teclas[pygame.K_s]:
+            y_gato = y_gato + velocidade_gato
+        if y_gato < 0:
+            y_gato = 0
+        if y_gato > altura-50:
+            y_gato = altura-50
+            gato_rect.y = y_gato
+            for rato in ratos.copy():
+                rato[0] -= velocidade_rato
+
+                rato [2] += 0.1
+                if rato[2]>=len(img_ratos):
+                    rato[2]= 0
+                    
+                rato_rect = pygame.Rect(rato[0], rato [1], 40,40)
+                if rato_rect.colliderect(gato_rect):
+                    ratos.remove(rato)
+                    ratos_comidos +=1
+                elif rato[0] + 50 < parede_do_mapa:
+                    ratos.remove(rato)
+            if len(ratos) < 6 and ratos_spawnados < total_ratos:
+                spawnar_ratos()
+            if ratos_spawnados == total_ratos and len(ratos) == 0:
+                if ratos_comidos >= pontuacao_alvo:
+                    estado = "fase 2"
+                else:
+                    estado = "derrota"
+            
+    screen.fill((255, 255, 255))
+
+    pygame.display.flip()
+    clock.tick(60)
