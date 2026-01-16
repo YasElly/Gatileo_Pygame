@@ -89,3 +89,19 @@ loja_normal = pygame.image.load("gatileo/imagens/botao_loja.png").convert_alpha(
 loja_hover = pygame.transform.smoothscale(loja_normal, (249 - (249//5), 54 - (54//5)))
 loja_atual = loja_normal
 botao_loja = loja_normal.get_rect(topleft=(93, 253))
+
+granada_normal = pygame.image.load("gatileo/imagens/botao_granada.png").convert_alpha()
+granada_hover = pygame.transform.smoothscale(granada_normal, (117 - (117//8), 19 - (19//8)))
+granada_atual = granada_normal
+botao_granada = granada_normal.get_rect(topleft=(163, 321))
+
+viratempo_normal = pygame.image.load("gatileo/imagens/botao_viratempo.png").convert_alpha()
+viratempo_hover = pygame.transform.smoothscale(viratempo_normal, (129 - (129//8), 23 - (23//8)))
+viratempo_atual = viratempo_normal
+botao_viratempo = viratempo_normal.get_rect(topleft=(350, 318))
+
+interrogacao_normal = pygame.image.load("gatileo/imagens/interrogacao_loja.png").convert_alpha()
+interrogacao_normal = pygame.transform.smoothscale(interrogacao_normal, (53, 40))
+interrogacao_hover = pygame.transform.scale(interrogacao_normal, (53 - (53//6), 40 - (40//6)))
+interrogacao_atual = interrogacao_normal
+botao_interrogacao = interrogacao_normal.get_rect(topleft=(70, 365))
