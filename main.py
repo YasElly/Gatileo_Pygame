@@ -1,4 +1,5 @@
 import pygame
+import random
 
 pygame.init()
 pygame.display.set_caption('Gatíleo')
@@ -125,3 +126,34 @@ moedas = 300
 inventario = []
 
 texto_moedas = font.render(f'R${moedas}', True, (0, 0, 0))
+
+x_permitidos = [680, 730, 780, 830, 900, 950, 1000, 1050, 1100, 1150, 1200, 1250]
+y_permitidos = [100, 150, 200, 250, 300, 350, 400]
+ratos_spawnados = 0
+total_ratos = 35
+
+ratos = []
+def spawnar_ratos():
+    global ratos_spawnados
+    if ratos_spawnados >= total_ratos:
+        return
+    x_usados = random.sample(x_permitidos, 6)
+    y_usados = random.sample(y_permitidos, 6)
+    for i in range (6):
+        if ratos_spawnados >= total_ratos:
+            break
+        x = x_usados[i]
+        y = y_usados[i]
+        ratos.append([x, y, 0])
+        ratos_spawnados = ratos_spawnados + 1
+
+def iniciar_fase_1():
+    global ratos_spawnados, ratos_comidos, ratos, parede_do_mapa, pontuacao_alvo
+    ratos_spawnados =0
+    ratos_comidos =0
+    parede_do_mapa = 60
+    pontuacao_alvo= 20
+    ratos.clear()
+    spawnar_ratos()
+
+estado = "tela inicial"
