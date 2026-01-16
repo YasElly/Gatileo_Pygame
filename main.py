@@ -316,28 +316,28 @@ while running:
             y_gato = 0
         if y_gato > altura-50:
             y_gato = altura-50
-            gato_rect.y = y_gato
-            for rato in ratos.copy():
-                rato[0] -= velocidade_rato
+        gato_rect.y = y_gato
+        for rato in ratos.copy():
+            rato[0] -= velocidade_rato
 
-                rato [2] += 0.1
-                if rato[2]>=len(img_ratos):
-                    rato[2]= 0
-                    
-                rato_rect = pygame.Rect(rato[0], rato [1], 40,40)
-                if rato_rect.colliderect(gato_rect):
-                    ratos.remove(rato)
-                    ratos_comidos +=1
-                elif rato[0] + 50 < parede_do_mapa:
-                    ratos.remove(rato)
-            if len(ratos) < 6 and ratos_spawnados < total_ratos:
-                spawnar_ratos()
-            if ratos_spawnados == total_ratos and len(ratos) == 0:
-                if ratos_comidos >= pontuacao_alvo:
-                    estado = "fase 2"
-                else:
-                    estado = "derrota"
-            
+            rato [2] += 0.1
+            if rato[2]>=len(img_ratos):
+                rato[2]= 0
+           
+            rato_rect = pygame.Rect(rato[0], rato [1], 40,40)
+            if rato_rect.colliderect(gato_rect):
+                ratos.remove(rato)
+                ratos_comidos +=1
+            elif rato[0] + 50 < parede_do_mapa:
+                ratos.remove(rato)
+        if len(ratos) < 6 and ratos_spawnados < total_ratos:
+            spawnar_ratos()
+        if ratos_spawnados == total_ratos and len(ratos) == 0:
+            if ratos_comidos >= pontuacao_alvo:
+                estado = "fase 2"
+            else:
+                estado = "derrota"
+   
     screen.fill((255, 255, 255))
 
     if estado == "tela inicial":
