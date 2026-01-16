@@ -259,50 +259,50 @@ while running:
                         else:
                             estado = 'dinheiro insuficiente'
 
-                        if botao_viratempo.collidepoint(event.pos):
-                            if moedas >= 200:
-                                if 'viratempo' not in inventario:
-                                    inventario.append('viratempo')
-                                    moedas = moedas - 200
-                                    estado = "comprou viratempo"
-                                else:
-                                    estado = "viratempo no inventario"
+                    if botao_viratempo.collidepoint(event.pos):
+                        if moedas >= 200:
+                            if 'viratempo' not in inventario:
+                                inventario.append('viratempo')
+                                moedas = moedas - 200
+                                estado = "comprou viratempo"
                             else:
-                                estado = 'dinheiro insuficiente'
-                    elif estado == "tutorial loja":
-                        if botao_xloja.collidepoint(event.pos):
-                            estado = "loja"
-                    elif estado == "comprou granada":
-                        if botao_xaviso.collidepoint(event.pos):
-                            estado = "loja"
-                    elif estado == "granada no inventario":
-                        if botao_xaviso.collidepoint(event.pos):
-                            estado = "loja"
-                    elif estado == "comprou viratempo":
-                        if botao_xaviso.collidepoint(event.pos):
-                            estado = "loja"
-                    elif estado == "viratempo no inventario":
-                        if botao_xaviso.collidepoint(event.pos):
-                            estado = "loja"
-                    elif estado == "dinheiro insuficiente":
-                        if botao_xaviso.collidepoint(event.pos):
-                            estado = "loja"
-                    elif estado == "tutorial 1":
-                        if botao_x.collidepoint(event.pos):
-                            estado = "fase 1"
-                            iniciar_fase_1()
-                    elif estado == "vitoria":
-                        if botao_tela_inicial.collidepoint(event.pos):
-                            estado = "tela inicial"
-                        if botao_jogar_novamente.collidepoint(event.pos):
-                            estado = "fase 1"
-                            iniciar_fase_1()
-                    elif estado == "derrota":
-                        if botao_jogar_novamente.collidepoint(event.pos):
-                            estado = "fase 1"
-                            iniciar_fase_1()
-                        if botao_tela_inicial.collidepoint(event.pos):
-                            estado = "tela inicial"
+                                estado = "viratempo no inventario"
+                        else:
+                            estado = 'dinheiro insuficiente'
+                elif estado == "tutorial loja":
+                    if botao_xloja.collidepoint(event.pos):
+                        estado = "loja"
+                elif estado == "comprou granada":
+                    if botao_xaviso.collidepoint(event.pos):
+                        estado = "loja"
+                elif estado == "granada no inventario":
+                    if botao_xaviso.collidepoint(event.pos):
+                        estado = "loja"
+                elif estado == "comprou viratempo":
+                    if botao_xaviso.collidepoint(event.pos):
+                        estado = "loja"
+                elif estado == "viratempo no inventario":
+                    if botao_xaviso.collidepoint(event.pos):
+                        estado = "loja"
+                elif estado == "dinheiro insuficiente":
+                    if botao_xaviso.collidepoint(event.pos):
+                        estado = "loja"
+                elif estado == "tutorial 1":
+                    if botao_x.collidepoint(event.pos):
+                        estado = "fase 1"
+                        iniciar_fase_1()
+                elif estado == "vitoria":
+                    if botao_tela_inicial.collidepoint(event.pos):
+                        estado = "tela inicial"
+                    if botao_jogar_novamente.collidepoint(event.pos):
+                        estado = "fase 1"
+                        iniciar_fase_1()
+                elif estado == "derrota":
+                    if botao_jogar_novamente.collidepoint(event.pos):
+                        estado = "fase 1"
+                        iniciar_fase_1()
+                    if botao_tela_inicial.collidepoint(event.pos):
+                        estado = "tela inicial"
     if estado == "fase 1":    
         teclas = pygame.key.get_pressed()
         velocidade_gato = 6
