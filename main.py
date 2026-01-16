@@ -340,5 +340,74 @@ while running:
             
     screen.fill((255, 255, 255))
 
+    if estado == "tela inicial":
+        screen.blit(tela_inicial, (15, 30))
+        screen.blit(titulo, (85, 60))
+        screen.blit(jogar_atual, botao_jogar)
+        screen.blit(loja_atual, botao_loja)
+    elif estado == "tutorial 1":
+        screen.blit(tutorial1, (28, 55))
+        screen.blit(x_atual, botao_x)
+    elif estado == "fase 1":
+        x = 20
+        y = 20
+        screen.blit(fase_1, (0, 0))
+        screen.blit(img_gato, (50, y_gato))
+        screen.blit(Texto_ratos_comidos, (x, y))
+        for rato in ratos:
+            img = img_ratos[int(rato[2])]
+            img = pygame.transform.scale(img, (40, 40))
+            screen.blit(img, (rato[0], rato[1]))
+    elif estado == "tutorial 2":
+        screen.blit(tutorial1, (28, 55))
+        screen.blit(x_atual, botao_x)
+    elif estado == "fase 2":
+        screen.blit(fase_2, (0, 0))
+    elif estado == "loja":
+        x_loja = (640 // 2) - tela_loja.get_width() // 2
+        y_loja = (480 - tela_loja.get_height()) // 2
+        screen.blit(tela_loja, (x_loja, y_loja))
+        screen.blit(voltar_atual, botao_voltar)
+        screen.blit(interrogacao_atual, botao_interrogacao)
+        screen.blit(granada_atual, botao_granada)
+        screen.blit(viratempo_atual, botao_viratempo)
+        screen.blit(texto_moedas, (475, 95))
+    elif estado == "tutorial loja":
+        screen.blit(tutorial_loja, (25, 55))
+        screen.blit(xloja_atual, botao_xloja)
+    elif estado == "comprou granada":
+        screen.fill((213, 214, 214))
+        screen.blit(tela_comprou_granada, (x_loja + 2, y_loja + 2))
+        screen.blit(texto_moedas, (475, 95))
+        screen.blit(xaviso_atual, botao_xaviso)
+    elif estado == "granada no inventario":
+        screen.fill((213, 214, 214))
+        screen.blit(tela_granada_inventario, (x_loja + 2, y_loja + 2))
+        screen.blit(texto_moedas, (475, 95))
+        screen.blit(xaviso_atual, botao_xaviso)
+    elif estado == "comprou viratempo":
+        screen.fill((213, 214, 214))
+        screen.blit(tela_comprou_viratempo, (x_loja + 2, y_loja + 2))
+        screen.blit(texto_moedas, (475, 95))
+        screen.blit(xaviso_atual, botao_xaviso)
+    elif estado == "viratempo no inventario":
+        screen.fill((213, 214, 214))
+        screen.blit(tela_viratempo_inventario, (x_loja + 2, y_loja + 2))
+        screen.blit(texto_moedas, (475, 95))
+        screen.blit(xaviso_atual, botao_xaviso)
+    elif estado == "dinheiro insuficiente":
+        screen.fill((213, 214, 214))
+        screen.blit(tela_dinheiro_insuficiente, (x_loja + 2, y_loja + 2))
+        screen.blit(texto_moedas, (475, 95))
+        screen.blit(xaviso_atual, botao_xaviso)
+    elif estado == "vitoria":
+        screen.blit(tela_vitoria, (20, 57))
+        screen.blit(tela_inicial_atual, botao_tela_inicial)
+        screen.blit(jogar_novamente_atual, botao_jogar_novamente)
+    elif estado == "derrota":
+        screen.blit(tela_derrota, (20, 57))
+        screen.blit(tela_inicial_atual, botao_tela_inicial)
+        screen.blit(jogar_novamente_atual, botao_jogar_novamente)
+        
     pygame.display.flip()
     clock.tick(60)
