@@ -157,3 +157,80 @@ def iniciar_fase_1():
     spawnar_ratos()
 
 estado = "tela inicial"
+
+while running:
+
+    for event in pygame.event.get():
+
+        if event.type == pygame.QUIT:
+            running = False
+
+        if event.type == pygame.MOUSEMOTION:
+
+            if botao_jogar.collidepoint(event.pos):
+                jogar_atual = jogar_hover
+            else:
+                jogar_atual = jogar_normal
+            botao_jogar = jogar_atual.get_rect(center = botao_jogar.center)
+
+            if botao_loja.collidepoint(event.pos):
+                loja_atual = loja_hover
+            else:
+                loja_atual = loja_normal
+            botao_loja = loja_atual.get_rect(center = botao_loja.center)
+
+            if botao_voltar.collidepoint(event.pos):
+                voltar_atual = voltar_hover
+            else:
+                voltar_atual = voltar_normal
+            botao_voltar = voltar_atual.get_rect(center = botao_voltar.center)
+
+            if botao_tela_inicial.collidepoint(event.pos):
+                tela_inicial_atual = tela_inicial_hover
+            else:
+                tela_inicial_atual = tela_inicial_normal
+            botao_tela_inicial = tela_inicial_atual.get_rect(center = botao_tela_inicial.center)
+
+            if botao_jogar_novamente.collidepoint(event.pos):
+                jogar_novamente_atual = jogar_novamente_hover
+            else:
+                jogar_novamente_atual = jogar_novamente_normal
+            botao_jogar_novamente = jogar_novamente_atual.get_rect(center = botao_jogar_novamente.center)
+
+            if botao_x.collidepoint(event.pos):
+                x_atual = x_hover
+            else:
+                x_atual = x_normal
+            botao_x = x_atual.get_rect(center = botao_x.center)
+
+            if botao_xloja.collidepoint(event.pos):
+                xloja_atual = xloja_hover
+            else:
+                xloja_atual = xloja_normal
+            botao_xloja = xloja_atual.get_rect(center = botao_xloja.center)
+
+            if botao_granada.collidepoint(event.pos):
+                granada_atual = granada_hover
+            else:
+                granada_atual = granada_normal
+            botao_granada = granada_atual.get_rect(center = botao_granada.center)
+
+            if botao_viratempo.collidepoint(event.pos):
+                viratempo_atual = viratempo_hover
+            else:
+                viratempo_atual = viratempo_normal
+            botao_viratempo = viratempo_atual.get_rect(center = botao_viratempo.center)
+
+            if botao_interrogacao.collidepoint(event.pos):
+                interrogacao_atual = interrogacao_hover
+            else:
+                interrogacao_atual = interrogacao_normal
+            botao_interrogacao = interrogacao_atual.get_rect(center = botao_interrogacao.center)
+
+            if botao_xaviso.collidepoint(event.pos):
+                xaviso_atual = xaviso_hover
+            else:
+                xaviso_atual = xaviso_normal
+            botao_xaviso = xaviso_atual.get_rect(center = botao_xaviso.center)
+
+        texto_moedas = font.render(f'R${moedas}', True, (0, 0, 0))
