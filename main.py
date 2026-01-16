@@ -105,3 +105,23 @@ interrogacao_normal = pygame.transform.smoothscale(interrogacao_normal, (53, 40)
 interrogacao_hover = pygame.transform.scale(interrogacao_normal, (53 - (53//6), 40 - (40//6)))
 interrogacao_atual = interrogacao_normal
 botao_interrogacao = interrogacao_normal.get_rect(topleft=(70, 365))
+
+voltar_normal = pygame.image.load("gatileo/imagens/botao_voltar.png").convert_alpha()
+voltar_hover = pygame.transform.smoothscale(voltar_normal, (142 - (142//5), 48 - (48//5)))
+voltar_atual = voltar_normal
+botao_voltar = voltar_normal.get_rect(topleft=(88, 80))
+
+tela_inicial_normal = pygame.image.load("gatileo/imagens/botao_tela_inicial.png").convert_alpha()
+tela_inicial_hover = pygame.transform.smoothscale(tela_inicial_normal, (221 - (221//5), 36 - (36//5)))
+tela_inicial_atual = tela_inicial_normal
+botao_tela_inicial = tela_inicial_normal.get_rect(topleft=(270, 259))
+
+jogar_novamente_normal = pygame.image.load("gatileo/imagens/botao_jogar_novamente.png").convert_alpha()
+jogar_novamente_hover = pygame.transform.smoothscale(jogar_novamente_normal, (220 - (221//5), 34 - (34//5)))
+jogar_novamente_atual = jogar_novamente_normal
+botao_jogar_novamente = jogar_novamente_normal.get_rect(topleft=(271, 220))
+
+moedas = 300
+inventario = []
+
+texto_moedas = font.render(f'R${moedas}', True, (0, 0, 0))
