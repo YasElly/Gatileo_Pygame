@@ -122,7 +122,9 @@ jogar_novamente_hover = pygame.transform.smoothscale(jogar_novamente_normal, (22
 jogar_novamente_atual = jogar_novamente_normal
 botao_jogar_novamente = jogar_novamente_normal.get_rect(topleft=(271, 220))
 
-moedas = 300
+arma = pygame.Surface([10, 3])
+
+moedas = 0
 inventario = []
 
 texto_moedas = font.render(f'R${moedas}', True, (0, 0, 0))
@@ -305,8 +307,8 @@ while running:
                         estado = "tela inicial"
     if estado == "fase 1":    
         teclas = pygame.key.get_pressed()
-        velocidade_gato = 6
-        velocidade_rato = 2
+        velocidade_gato = 5
+        velocidade_rato = 3
         Texto_ratos_comidos = font.render(f'Ratos comidos:{ratos_comidos}', True, 'black')
         if teclas[pygame.K_w]:
             y_gato = y_gato - velocidade_gato
@@ -333,13 +335,15 @@ while running:
         if len(ratos) < 6 and ratos_spawnados < total_ratos:
             spawnar_ratos()
         if ratos_spawnados == total_ratos and len(ratos) == 0:
+            moedas += 5 * ratos_comidos
             if ratos_comidos >= pontuacao_alvo:
-                estado = "fase 2"
+                # estado = "fase 2"
+                estado = "vitoria"
             else:
                 estado = "derrota"
    
     screen.fill((255, 255, 255))
-
+    
     if estado == "tela inicial":
         screen.blit(tela_inicial, (15, 30))
         screen.blit(titulo, (85, 60))
