@@ -91,6 +91,9 @@ loja_hover = pygame.transform.smoothscale(loja_normal, (249 - (249//5), 54 - (54
 loja_atual = loja_normal
 botao_loja = loja_normal.get_rect(topleft=(93, 253))
 
+contador = pygame.image.load('gatileo/imagens/contador.png').convert_alpha()
+contador = pygame.transform.smoothscale(contador, (108, 38))
+
 granada_normal = pygame.image.load("gatileo/imagens/botao_granada.png").convert_alpha()
 granada_hover = pygame.transform.smoothscale(granada_normal, (117 - (117//8), 19 - (19//8)))
 granada_atual = granada_normal
@@ -309,7 +312,6 @@ while running:
         teclas = pygame.key.get_pressed()
         velocidade_gato = 5
         velocidade_rato = 3
-        Texto_ratos_comidos = font.render(f'Ratos comidos:{ratos_comidos}', True, 'black')
         if teclas[pygame.K_w]:
             y_gato = y_gato - velocidade_gato
         if teclas[pygame.K_s]:
@@ -357,7 +359,9 @@ while running:
         y = 20
         screen.blit(fase_1, (0, 0))
         screen.blit(img_gato, (50, y_gato))
-        screen.blit(Texto_ratos_comidos, (x, y))
+        screen.blit(contador, (500, 15))
+        txt_contador = font.render(f'{ratos_comidos}/20', True, (0, 0, 0))
+        screen.blit(txt_contador, (549, 27))
         for rato in ratos:
             img = img_ratos[int(rato[2])]
             img = pygame.transform.scale(img, (40, 40))
