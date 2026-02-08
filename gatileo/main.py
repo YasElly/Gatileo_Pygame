@@ -65,6 +65,8 @@ img_ratos = [
  ] 
 img_gato = pygame.image.load('gatileo/imagens/gato.png').convert_alpha()
 img_gato = pygame.transform.smoothscale(img_gato, (50, 50))
+img_rei = pygame.image.load('gatileo/imagens/rato_rei.png').convert_alpha()
+img_rei = pygame.transform.smoothscale(img_rei, (50, 50))
 
 fase_2 = pygame.image.load('gatileo/imagens/fase_2beta.png').convert_alpha()
 fase_2 = pygame.transform.smoothscale(fase_2, (640, 480))
@@ -127,6 +129,17 @@ botao_jogar_novamente = jogar_novamente_normal.get_rect(topleft=(271, 220))
 
 arma = pygame.Surface([10, 3])
 
+vidas_gato = 3
+vida_rei = 25
+
+rato_rei_x = largura//2 - 40
+rato_rei_y = altura//2 - 40
+
+tiros_gato = []
+balas_inimigas = []
+
+suditos = []
+
 moedas = 0
 inventario = []
 
@@ -161,6 +174,22 @@ def iniciar_fase_1():
     ratos.clear()
     spawnar_ratos()
 
+def iniciar_fase_2():
+    global vidas_gato, vida_rei, tiros_gato, balas_inimigas, suditos, y_gato
+
+    y_gato = 225
+    gato_rect.y = y_gato
+    vidas_gato = 3
+    vida_rei = 25
+
+    tiros_gato.clear()
+    balas_inimigas.clear()
+    suditos.clear()
+
+    suditos.append([420, 50, 1, 0])
+    suditos.append([500, 200, 1, 30])
+    suditos.append([420, 350, -1, 60])
+
 estado = "tela inicial"
 
 while running:
@@ -169,6 +198,11 @@ while running:
 
         if event.type == pygame.QUIT:
             running = False
+        
+        if estado == "fase 2":
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    tiros_gato.append([gato_rect.right, gato_rect.centery])
 
         if event.type == pygame.MOUSEMOTION:
 
@@ -296,12 +330,6 @@ while running:
                     if botao_x.collidepoint(event.pos):
                         estado = "fase 1"
                         iniciar_fase_1()
-                elif estado == "vitoria":
-                    if botao_tela_inicial.collidepoint(event.pos):
-                        estado = "tela inicial"
-                    if botao_jogar_novamente.collidepoint(event.pos):
-                        estado = "fase 1"
-                        iniciar_fase_1()
                 elif estado == "derrota":
                     if botao_jogar_novamente.collidepoint(event.pos):
                         estado = "fase 1"
@@ -339,11 +367,71 @@ while running:
         if ratos_spawnados == total_ratos and len(ratos) == 0:
             moedas += 5 * ratos_comidos
             if ratos_comidos >= pontuacao_alvo:
-                # estado = "fase 2"
-                estado = "vitoria"
+                iniciar_fase_2()
+                estado = "fase 2"
             else:
                 estado = "derrota"
-   
+
+    if estado == "fase 2":
+        teclas = pygame.key.get_pressed()
+        velocidade_gato = 5
+
+        if teclas[pygame.K_w]:
+            y_gato -= velocidade_gato
+        if teclas[pygame.K_s]:
+            y_gato += velocidade_gato
+
+        if y_gato < 0:
+            y_gato = 0
+        if y_gato > altura - 50:
+            y_gato = altura - 50
+
+        gato_rect.y = y_gato
+
+        rei_rect = pygame.Rect(rato_rei_x, rato_rei_y, 80, 80)
+
+        for tiro in tiros_gato.copy():
+            tiro[0] += 7
+            tiro_rect = pygame.Rect(tiro[0], tiro[1], 10, 3)
+
+            if tiro_rect.colliderect(rei_rect):
+                tiros_gato.remove(tiro)
+                vida_rei -= 1
+
+            elif tiro[0] > largura:
+                tiros_gato.remove(tiro)
+
+        for sudito in suditos:
+
+            sudito[1] += 3 * sudito[2]
+
+            if sudito[1] <= 0 or sudito[1] >= altura - 40:
+                sudito[2] *= -1
+
+            if sudito[3] > 0:
+                sudito[3] -= 1
+            else:
+                balas_inimigas.append([sudito[0], sudito[1]])
+                sudito[3] = 60
+
+        for bala in balas_inimigas.copy():
+
+            bala[0] -= 5
+            bala_rect = pygame.Rect(bala[0], bala[1], 10, 10)
+
+            if bala_rect.colliderect(gato_rect):
+                balas_inimigas.remove(bala)
+                vidas_gato -= 1
+
+            elif bala[0] < 0:
+                balas_inimigas.remove(bala)
+
+        if vidas_gato <= 0:
+            estado = "derrota"
+
+        if vida_rei <= 0:
+            estado = "vitoria"
+
     screen.fill((255, 255, 255))
     
     if estado == "tela inicial":
@@ -371,6 +459,16 @@ while running:
         screen.blit(x_atual, botao_x)
     elif estado == "fase 2":
         screen.blit(fase_2, (0, 0))
+        screen.blit(img_gato, (50, y_gato))
+        pygame.draw.rect(screen, (120,120,120), (rato_rei_x, rato_rei_y, 80, 80))
+        for sudito in suditos:
+            pygame.draw.rect(screen, (180,180,180), (sudito[0], sudito[1], 40, 40))
+        for tiro in tiros_gato:
+            pygame.draw.rect(screen, (0,0,0), (tiro[0], tiro[1], 10, 3))
+        for bala in balas_inimigas:
+            pygame.draw.rect(screen, (255,0,0), (bala[0], bala[1], 10, 10))
+        texto_vidas = font.render(f'Vidas: {vidas_gato}', True, (0,0,0))
+        screen.blit(texto_vidas, (10,10))
     elif estado == "loja":
         x_loja = (640 // 2) - tela_loja.get_width() // 2
         y_loja = (480 - tela_loja.get_height()) // 2
