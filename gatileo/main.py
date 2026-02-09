@@ -66,9 +66,9 @@ img_ratos = [
 img_gato = pygame.image.load('gatileo/imagens/gato.png').convert_alpha()
 img_gato = pygame.transform.smoothscale(img_gato, (50, 50))
 img_rei = pygame.image.load('gatileo/imagens/rato_rei.png').convert_alpha()
-img_rei = pygame.transform.smoothscale(img_rei, (50, 50))
+img_rei = pygame.transform.smoothscale(img_rei, (250, 250))
 
-fase_2 = pygame.image.load('gatileo/imagens/fase_2beta.png').convert_alpha()
+fase_2 = pygame.image.load('gatileo/imagens/fase_1beta.png').convert_alpha()
 fase_2 = pygame.transform.smoothscale(fase_2, (640, 480))
 
 y_gato = 225
@@ -127,13 +127,11 @@ jogar_novamente_hover = pygame.transform.smoothscale(jogar_novamente_normal, (22
 jogar_novamente_atual = jogar_novamente_normal
 botao_jogar_novamente = jogar_novamente_normal.get_rect(topleft=(271, 220))
 
-arma = pygame.Surface([10, 3])
-
 vidas_gato = 3
-vida_rei = 25
+vida_rei = 50
 
-rato_rei_x = largura//2 - 40
-rato_rei_y = altura//2 - 40
+rato_rei_x = largura - 280
+rato_rei_y = altura//2 - 130
 
 tiros_gato = []
 balas_inimigas = []
@@ -177,18 +175,18 @@ def iniciar_fase_1():
 def iniciar_fase_2():
     global vidas_gato, vida_rei, tiros_gato, balas_inimigas, suditos, y_gato
 
+    vidas_gato = 3
+    vida_rei = 6
     y_gato = 225
     gato_rect.y = y_gato
-    vidas_gato = 3
-    vida_rei = 25
 
     tiros_gato.clear()
     balas_inimigas.clear()
     suditos.clear()
 
-    suditos.append([420, 50, 1, 0])
-    suditos.append([500, 200, 1, 30])
-    suditos.append([420, 350, -1, 60])
+    suditos.append([rato_rei_x - 120, 50, 1, 0, 0])
+    suditos.append([rato_rei_x - 80, 200, 1, 30, 0])
+    suditos.append([rato_rei_x - 120, 350, -1, 60, 0])
 
 estado = "tela inicial"
 
@@ -336,6 +334,7 @@ while running:
                         iniciar_fase_1()
                     if botao_tela_inicial.collidepoint(event.pos):
                         estado = "tela inicial"
+
     if estado == "fase 1":    
         teclas = pygame.key.get_pressed()
         velocidade_gato = 5
@@ -375,38 +374,30 @@ while running:
     if estado == "fase 2":
         teclas = pygame.key.get_pressed()
         velocidade_gato = 5
-
         if teclas[pygame.K_w]:
             y_gato -= velocidade_gato
         if teclas[pygame.K_s]:
             y_gato += velocidade_gato
-
-        if y_gato < 0:
-            y_gato = 0
-        if y_gato > altura - 50:
-            y_gato = altura - 50
-
+        y_gato = max(0, min(altura-50, y_gato))
         gato_rect.y = y_gato
-
-        rei_rect = pygame.Rect(rato_rei_x, rato_rei_y, 80, 80)
-
+        rei_rect = pygame.Rect(rato_rei_x, rato_rei_y, 90, 90)
         for tiro in tiros_gato.copy():
             tiro[0] += 7
             tiro_rect = pygame.Rect(tiro[0], tiro[1], 10, 3)
-
             if tiro_rect.colliderect(rei_rect):
                 tiros_gato.remove(tiro)
                 vida_rei -= 1
-
             elif tiro[0] > largura:
                 tiros_gato.remove(tiro)
+        velocidade_sudito = 3.5
 
         for sudito in suditos:
-
-            sudito[1] += 3 * sudito[2]
-
-            if sudito[1] <= 0 or sudito[1] >= altura - 40:
+            sudito[1] += velocidade_sudito * sudito[2]
+            if sudito[1] <= 0 or sudito[1] >= altura-40:
                 sudito[2] *= -1
+            sudito[4] += 0.15
+            if sudito[4] >= len(img_ratos):
+                sudito[4] = 0
 
             if sudito[3] > 0:
                 sudito[3] -= 1
@@ -415,7 +406,6 @@ while running:
                 sudito[3] = 60
 
         for bala in balas_inimigas.copy():
-
             bala[0] -= 5
             bala_rect = pygame.Rect(bala[0], bala[1], 10, 10)
 
@@ -458,11 +448,13 @@ while running:
         screen.blit(tutorial1, (28, 55))
         screen.blit(x_atual, botao_x)
     elif estado == "fase 2":
-        screen.blit(fase_2, (0, 0))
-        screen.blit(img_gato, (50, y_gato))
-        pygame.draw.rect(screen, (120,120,120), (rato_rei_x, rato_rei_y, 80, 80))
+        screen.blit(fase_2, (0,0))
+        screen.blit(img_rei, (rato_rei_x, rato_rei_y))
         for sudito in suditos:
-            pygame.draw.rect(screen, (180,180,180), (sudito[0], sudito[1], 40, 40))
+            frame = img_ratos[int(sudito[4])]
+            frame = pygame.transform.scale(frame, (50,50))
+            screen.blit(frame, (sudito[0], sudito[1]))
+        screen.blit(img_gato, (50, y_gato))
         for tiro in tiros_gato:
             pygame.draw.rect(screen, (0,0,0), (tiro[0], tiro[1], 10, 3))
         for bala in balas_inimigas:
