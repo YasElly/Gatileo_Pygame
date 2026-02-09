@@ -101,13 +101,23 @@ granada_hover = pygame.transform.smoothscale(granada_normal, (117 - (117//8), 19
 granada_atual = granada_normal
 botao_granada = granada_normal.get_rect(topleft=(163, 321))
 
+borda_granada = pygame.Surface([62, 66])
+borda_granada.fill((0, 0, 0))
+q_granada = pygame.Surface([60, 64])
+q_granada.fill((255, 255, 255))
+
+borda_viratempo = pygame.Surface([62, 66])
+borda_viratempo.fill((0, 0, 0))
+q_viratempo = pygame.Surface([60, 64])
+q_viratempo.fill((255, 255, 255))
+
 icone_granada = pygame.image.load("gatileo/imagens/granada.png").convert_alpha()
 icone_granada = pygame.transform.smoothscale(icone_granada, (150, 150))
-b_icone_granada = icone_granada.get_rect(topleft=(400, 30))
+b_icone_granada = icone_granada.get_rect(topleft=(495, -30))
 
 icone_viratempo = pygame.image.load("gatileo/imagens/viratempo.png").convert_alpha()
 icone_viratempo = pygame.transform.smoothscale(icone_viratempo, (150, 150))
-b_icone_viratempo = icone_viratempo.get_rect(topleft=(550, 30))
+b_icone_viratempo = icone_viratempo.get_rect(topleft=(495, 45))
 
 viratempo_normal = pygame.image.load("gatileo/imagens/botao_viratempo.png").convert_alpha()
 viratempo_hover = pygame.transform.smoothscale(viratempo_normal, (129 - (129//8), 23 - (23//8)))
@@ -151,7 +161,7 @@ inventario = []
 
 viratempo_ativo = False
 tempo_inicio_viratempo = 0
-duracao_viratempo = 3000
+duracao_viratempo = 10000
 
 texto_moedas = font.render(f'R${moedas}', True, (0, 0, 0))
 
@@ -353,6 +363,10 @@ while running:
                     if botao_x.collidepoint(event.pos):
                         estado = "fase 1"
                         iniciar_fase_1()
+                elif estado == "tutorial 2":
+                    if botao_x.collidepoint(event.pos):
+                        iniciar_fase_2()
+                        estado = "fase 2"
                 elif estado == "derrota":
                     if botao_jogar_novamente.collidepoint(event.pos):
                         estado = "fase 1"
@@ -396,8 +410,7 @@ while running:
         if ratos_spawnados == total_ratos and len(ratos) == 0:
             moedas += 5 * ratos_comidos
             if ratos_comidos >= pontuacao_alvo:
-                iniciar_fase_2()
-                estado = "fase 2"
+                estado = "tutorial 2"
             else:
                 estado = "derrota"
 
@@ -481,7 +494,7 @@ while running:
             img = pygame.transform.scale(img, (40, 40))
             screen.blit(img, (rato[0], rato[1]))
     elif estado == "tutorial 2":
-        screen.blit(tutorial1, (28, 55))
+        screen.blit(tutorial2, (10, 55))
         screen.blit(x_atual, botao_x)
     elif estado == "fase 2":
         screen.blit(fase_2, (0,0))
@@ -491,6 +504,10 @@ while running:
             frame = pygame.transform.scale(frame, (50,50))
             screen.blit(frame, (sudito[0], sudito[1]))
         screen.blit(img_gato, (50, y_gato))
+        screen.blit(borda_granada, (539, 9))
+        screen.blit(q_granada, (540, 10))
+        screen.blit(borda_viratempo, (539, 89))
+        screen.blit(q_viratempo, (540, 90))
         screen.blit(icone_granada, b_icone_granada)
         screen.blit(icone_viratempo, b_icone_viratempo)
         for tiro in tiros_gato:
