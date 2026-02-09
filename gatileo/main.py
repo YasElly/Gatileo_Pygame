@@ -423,10 +423,11 @@ while running:
             y_gato += velocidade_gato
         y_gato = max(0, min(altura-50, y_gato))
         gato_rect.y = y_gato
-        rei_rect = pygame.Rect(rato_rei_x, rato_rei_y, 250, 250)
+        rei_rect = pygame.Rect(rato_rei_x + 40, rato_rei_y + 40, 170, 170)
         for tiro in tiros_gato.copy():
             tiro[0] += 7
-            tiro_rect = pygame.Rect(tiro[0], tiro[1], 10, 5)
+            tiro_rect = pygame.Rect(0, 0, 10, 5)
+            tiro_rect.center = (tiro[0], tiro[1])
             if tiro_rect.colliderect(rei_rect):
                 tiros_gato.remove(tiro)
                 vida_rei -= 1
@@ -511,7 +512,9 @@ while running:
         screen.blit(icone_granada, b_icone_granada)
         screen.blit(icone_viratempo, b_icone_viratempo)
         for tiro in tiros_gato:
-            pygame.draw.rect(screen, (0,0,255), (tiro[0], tiro[1], 10, 5))
+            rect_tiro = pygame.Rect(0,0,10,5)
+            rect_tiro.center = (tiro[0], tiro[1])
+            pygame.draw.rect(screen, (0,0,255), rect_tiro)
         for bala in balas_inimigas:
             pygame.draw.circle(screen, (255, 0, 0), (int(bala[0]), int(bala[1])), 5)
         texto_vidas = font.render(f'Vidas: {vidas_gato}', True, (0,0,0))
