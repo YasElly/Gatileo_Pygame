@@ -336,6 +336,12 @@ while running:
                         iniciar_fase_1()
                     if botao_tela_inicial.collidepoint(event.pos):
                         estado = "tela inicial"
+                elif estado == "vitoria":
+                    if botao_jogar_novamente.collidepoint(event.pos):
+                        estado = "fase 1"
+                        iniciar_fase_1()
+                    if botao_tela_inicial.collidepoint(event.pos):
+                        estado = "tela inicial"
     if estado == "fase 1":    
         teclas = pygame.key.get_pressed()
         velocidade_gato = 5
