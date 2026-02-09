@@ -136,10 +136,10 @@ jogar_novamente_atual = jogar_novamente_normal
 botao_jogar_novamente = jogar_novamente_normal.get_rect(topleft=(271, 220))
 
 vidas_gato = 3
-vida_rei = 50
+vida_rei = 100
 
-rato_rei_x = largura - 280
-rato_rei_y = altura//2 - 130
+rato_rei_x = largura - img_rei.get_width() - 20
+rato_rei_y = altura//2 - img_rei.get_height()//2
 
 tiros_gato = []
 balas_inimigas = []
@@ -188,7 +188,7 @@ def iniciar_fase_2():
     global vidas_gato, vida_rei, tiros_gato, balas_inimigas, suditos, y_gato
 
     vidas_gato = 3
-    vida_rei = 6
+    vida_rei = 100
     y_gato = 225
     gato_rect.y = y_gato
 
@@ -196,9 +196,11 @@ def iniciar_fase_2():
     balas_inimigas.clear()
     suditos.clear()
 
-    suditos.append([rato_rei_x - 120, 50, 1, 0, 0])
-    suditos.append([rato_rei_x - 80, 200, 1, 30, 0])
-    suditos.append([rato_rei_x - 120, 350, -1, 60, 0])
+    meio_x = largura // 2 + 60
+
+    suditos.append([meio_x, 50, 1, 0, 0])
+    suditos.append([meio_x, 200, 1, 30, 0])
+    suditos.append([meio_x, 350, -1, 60, 0])
 
 estado = "tela inicial"
 
@@ -408,10 +410,10 @@ while running:
             y_gato += velocidade_gato
         y_gato = max(0, min(altura-50, y_gato))
         gato_rect.y = y_gato
-        rei_rect = pygame.Rect(rato_rei_x, rato_rei_y, 90, 90)
+        rei_rect = pygame.Rect(rato_rei_x, rato_rei_y, 250, 250)
         for tiro in tiros_gato.copy():
             tiro[0] += 7
-            tiro_rect = pygame.Rect(tiro[0], tiro[1], 10, 3)
+            tiro_rect = pygame.Rect(tiro[0], tiro[1], 10, 5)
             if tiro_rect.colliderect(rei_rect):
                 tiros_gato.remove(tiro)
                 vida_rei -= 1
@@ -484,20 +486,17 @@ while running:
     elif estado == "fase 2":
         screen.blit(fase_2, (0,0))
         screen.blit(img_rei, (rato_rei_x, rato_rei_y))
-        screen.blit(fase_2, (0, 0))
-        screen.blit(img_gato, (50, y_gato))
-        screen.blit(icone_granada, b_icone_granada)
-        screen.blit(icone_viratempo, b_icone_viratempo)
-        pygame.draw.rect(screen, (120,120,120), (rato_rei_x, rato_rei_y, 80, 80))
         for sudito in suditos:
             frame = img_ratos[int(sudito[4])]
             frame = pygame.transform.scale(frame, (50,50))
             screen.blit(frame, (sudito[0], sudito[1]))
         screen.blit(img_gato, (50, y_gato))
+        screen.blit(icone_granada, b_icone_granada)
+        screen.blit(icone_viratempo, b_icone_viratempo)
         for tiro in tiros_gato:
-            pygame.draw.rect(screen, (0,0,0), (tiro[0], tiro[1], 10, 3))
+            pygame.draw.rect(screen, (0,0,255), (tiro[0], tiro[1], 10, 5))
         for bala in balas_inimigas:
-            pygame.draw.rect(screen, (255,0,0), (bala[0], bala[1], 10, 10))
+            pygame.draw.circle(screen, (255, 0, 0), (int(bala[0]), int(bala[1])), 5)
         texto_vidas = font.render(f'Vidas: {vidas_gato}', True, (0,0,0))
         screen.blit(texto_vidas, (10,10))
     elif estado == "loja":
