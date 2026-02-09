@@ -101,6 +101,14 @@ granada_hover = pygame.transform.smoothscale(granada_normal, (117 - (117//8), 19
 granada_atual = granada_normal
 botao_granada = granada_normal.get_rect(topleft=(163, 321))
 
+icone_granada = pygame.image.load("gatileo/imagens/granada.png").convert_alpha()
+icone_granada = pygame.transform.smoothscale(icone_granada, (150, 150))
+b_icone_granada = icone_granada.get_rect(topleft=(400, 30))
+
+icone_viratempo = pygame.image.load("gatileo/imagens/viratempo.png").convert_alpha()
+icone_viratempo = pygame.transform.smoothscale(icone_viratempo, (150, 150))
+b_icone_viratempo = icone_viratempo.get_rect(topleft=(550, 30))
+
 viratempo_normal = pygame.image.load("gatileo/imagens/botao_viratempo.png").convert_alpha()
 viratempo_hover = pygame.transform.smoothscale(viratempo_normal, (129 - (129//8), 23 - (23//8)))
 viratempo_atual = viratempo_normal
@@ -140,6 +148,10 @@ suditos = []
 
 moedas = 0
 inventario = []
+
+viratempo_ativo = False
+tempo_inicio_viratempo = 0
+duracao_viratempo = 3000
 
 texto_moedas = font.render(f'R${moedas}', True, (0, 0, 0))
 
@@ -279,6 +291,17 @@ while running:
                         estado = "tutorial 1"
                     elif botao_loja.collidepoint(event.pos):
                         estado = "loja"
+                elif estado == "fase 2":
+                    if b_icone_granada.collidepoint(event.pos):
+                        if "granada" in inventario:
+                            random_sudito = random.choice(suditos)
+                            suditos.remove(random_sudito)
+                            inventario.remove("granada")
+                    if b_icone_viratempo.collidepoint(event.pos):
+                        if "viratempo" in inventario and not viratempo_ativo:
+                            viratempo_ativo = True
+                            tempo_inicio_viratempo = pygame.time.get_ticks()
+                            inventario.remove("viratempo")   
                 elif estado == "loja":
                     if botao_voltar.collidepoint(event.pos):
                         estado = "tela inicial"
@@ -334,7 +357,12 @@ while running:
                         iniciar_fase_1()
                     if botao_tela_inicial.collidepoint(event.pos):
                         estado = "tela inicial"
-
+                elif estado == "vitoria":
+                    if botao_jogar_novamente.collidepoint(event.pos):
+                        estado = "fase 1"
+                        iniciar_fase_1()
+                    if botao_tela_inicial.collidepoint(event.pos):
+                        estado = "tela inicial"
     if estado == "fase 1":    
         teclas = pygame.key.get_pressed()
         velocidade_gato = 5
@@ -399,11 +427,12 @@ while running:
             if sudito[4] >= len(img_ratos):
                 sudito[4] = 0
 
-            if sudito[3] > 0:
-                sudito[3] -= 1
-            else:
-                balas_inimigas.append([sudito[0], sudito[1]])
-                sudito[3] = 60
+            if not viratempo_ativo:
+                if sudito[3] > 0:
+                    sudito[3] -= 1
+                else:
+                    balas_inimigas.append([sudito[0], sudito[1]])
+                    sudito[3] = 60
 
         for bala in balas_inimigas.copy():
             bala[0] -= 5
@@ -415,6 +444,11 @@ while running:
 
             elif bala[0] < 0:
                 balas_inimigas.remove(bala)
+
+        if viratempo_ativo:
+            tempo_atual = pygame.time.get_ticks()
+            if tempo_atual - tempo_inicio_viratempo >= duracao_viratempo:
+                viratempo_ativo = False
 
         if vidas_gato <= 0:
             estado = "derrota"
@@ -450,6 +484,11 @@ while running:
     elif estado == "fase 2":
         screen.blit(fase_2, (0,0))
         screen.blit(img_rei, (rato_rei_x, rato_rei_y))
+        screen.blit(fase_2, (0, 0))
+        screen.blit(img_gato, (50, y_gato))
+        screen.blit(icone_granada, b_icone_granada)
+        screen.blit(icone_viratempo, b_icone_viratempo)
+        pygame.draw.rect(screen, (120,120,120), (rato_rei_x, rato_rei_y, 80, 80))
         for sudito in suditos:
             frame = img_ratos[int(sudito[4])]
             frame = pygame.transform.scale(frame, (50,50))
