@@ -68,7 +68,7 @@ img_gato = pygame.transform.smoothscale(img_gato, (50, 50))
 img_rei = pygame.image.load('gatileo/imagens/rato_rei.png').convert_alpha()
 img_rei = pygame.transform.smoothscale(img_rei, (50, 50))
 
-fase_2 = pygame.image.load('gatileo/imagens/fase_2beta.png').convert_alpha()
+fase_2 = pygame.image.load('gatileo/imagens/fase_1beta.png').convert_alpha()
 fase_2 = pygame.transform.smoothscale(fase_2, (640, 480))
 
 y_gato = 225
@@ -102,8 +102,12 @@ granada_atual = granada_normal
 botao_granada = granada_normal.get_rect(topleft=(163, 321))
 
 icone_granada = pygame.image.load("gatileo/imagens/granada.png").convert_alpha()
-icone_granada = pygame.transform.smoothscale(icone_granada, (60, 60))
-b_icone_granada = icone_granada.get_rect(topleft=(500, 50))
+icone_granada = pygame.transform.smoothscale(icone_granada, (150, 150))
+b_icone_granada = icone_granada.get_rect(topleft=(400, 30))
+
+icone_viratempo = pygame.image.load("gatileo/imagens/viratempo.png").convert_alpha()
+icone_viratempo = pygame.transform.smoothscale(icone_viratempo, (150, 150))
+b_icone_viratempo = icone_viratempo.get_rect(topleft=(550, 30))
 
 viratempo_normal = pygame.image.load("gatileo/imagens/botao_viratempo.png").convert_alpha()
 viratempo_hover = pygame.transform.smoothscale(viratempo_normal, (129 - (129//8), 23 - (23//8)))
@@ -146,6 +150,10 @@ suditos = []
 
 moedas = 0
 inventario = []
+
+viratempo_ativo = False
+tempo_inicio_viratempo = 0
+duracao_viratempo = 10000
 
 texto_moedas = font.render(f'R${moedas}', True, (0, 0, 0))
 
@@ -291,6 +299,11 @@ while running:
                             random_sudito = random.choice(suditos)
                             suditos.remove(random_sudito)
                             inventario.remove("granada")
+                    if b_icone_viratempo.collidepoint(event.pos):
+                        if "viratempo" in inventario and not viratempo_ativo:
+                            viratempo_ativo = True
+                            tempo_inicio_viratempo = pygame.time.get_ticks()
+                            inventario.remove("viratempo")   
                 elif estado == "loja":
                     if botao_voltar.collidepoint(event.pos):
                         estado = "tela inicial"
@@ -424,11 +437,12 @@ while running:
             if sudito[1] <= 0 or sudito[1] >= altura - 40:
                 sudito[2] *= -1
 
-            if sudito[3] > 0:
-                sudito[3] -= 1
-            else:
-                balas_inimigas.append([sudito[0], sudito[1]])
-                sudito[3] = 60
+            if not viratempo_ativo:
+                if sudito[3] > 0:
+                    sudito[3] -= 1
+                else:
+                    balas_inimigas.append([sudito[0], sudito[1]])
+                    sudito[3] = 60
 
         for bala in balas_inimigas.copy():
 
@@ -441,6 +455,11 @@ while running:
 
             elif bala[0] < 0:
                 balas_inimigas.remove(bala)
+
+        if viratempo_ativo:
+            tempo_atual = pygame.time.get_ticks()
+            if tempo_atual - tempo_inicio_viratempo >= duracao_viratempo:
+                viratempo_ativo = False
 
         if vidas_gato <= 0:
             estado = "derrota"
@@ -477,6 +496,7 @@ while running:
         screen.blit(fase_2, (0, 0))
         screen.blit(img_gato, (50, y_gato))
         screen.blit(icone_granada, b_icone_granada)
+        screen.blit(icone_viratempo, b_icone_viratempo)
         pygame.draw.rect(screen, (120,120,120), (rato_rei_x, rato_rei_y, 80, 80))
         for sudito in suditos:
             pygame.draw.rect(screen, (180,180,180), (sudito[0], sudito[1], 40, 40))
