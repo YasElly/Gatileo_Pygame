@@ -101,6 +101,10 @@ granada_hover = pygame.transform.smoothscale(granada_normal, (117 - (117//8), 19
 granada_atual = granada_normal
 botao_granada = granada_normal.get_rect(topleft=(163, 321))
 
+icone_granada = pygame.image.load("gatileo/imagens/granada.png").convert_alpha()
+icone_granada = pygame.transform.smoothscale(icone_granada, (60, 60))
+b_icone_granada = icone_granada.get_rect(topleft=(500, 50))
+
 viratempo_normal = pygame.image.load("gatileo/imagens/botao_viratempo.png").convert_alpha()
 viratempo_hover = pygame.transform.smoothscale(viratempo_normal, (129 - (129//8), 23 - (23//8)))
 viratempo_atual = viratempo_normal
@@ -281,6 +285,12 @@ while running:
                         estado = "tutorial 1"
                     elif botao_loja.collidepoint(event.pos):
                         estado = "loja"
+                elif estado == "fase 2":
+                    if b_icone_granada.collidepoint(event.pos):
+                        if "granada" in inventario:
+                            random_sudito = random.choice(suditos)
+                            suditos.remove(random_sudito)
+                            inventario.remove("granada")
                 elif estado == "loja":
                     if botao_voltar.collidepoint(event.pos):
                         estado = "tela inicial"
@@ -466,6 +476,7 @@ while running:
     elif estado == "fase 2":
         screen.blit(fase_2, (0, 0))
         screen.blit(img_gato, (50, y_gato))
+        screen.blit(icone_granada, b_icone_granada)
         pygame.draw.rect(screen, (120,120,120), (rato_rei_x, rato_rei_y, 80, 80))
         for sudito in suditos:
             pygame.draw.rect(screen, (180,180,180), (sudito[0], sudito[1], 40, 40))
