@@ -153,7 +153,7 @@ inventario = []
 
 viratempo_ativo = False
 tempo_inicio_viratempo = 0
-duracao_viratempo = 10000
+duracao_viratempo = 3000
 
 texto_moedas = font.render(f'R${moedas}', True, (0, 0, 0))
 
